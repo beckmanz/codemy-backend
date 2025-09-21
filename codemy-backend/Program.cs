@@ -2,6 +2,7 @@ using codemy_backend;
 using codemy_backend.Middlewares;
 using codemy_backend.Repositories.User;
 using codemy_backend.Services.Auth;
+using codemy_backend.Services.Token;
 using codemy_backend.Services.User;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -16,6 +17,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddScoped<IAuthInterface, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITokenInterface, TokenService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
