@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using codemy_backend.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace codemy_backend.Middlewares;
 
@@ -18,6 +19,21 @@ public class ExceptionMiddleware
         try
         {
             await _next(context);
+        }
+        catch (ConflictException ex)
+        {
+            _logger.LogWarning(ex, "Conflict error occurred.");
+
+            var problemDetails = new ProblemDetails
+            {
+                Title = "Conflict",
+                Status = StatusCodes.Status409Conflict,
+                Detail = ex.Message,
+                Instance = context.Request.Path
+            };
+
+            context.Response.StatusCode = StatusCodes.Status409Conflict;
+            await context.Response.WriteAsJsonAsync(problemDetails);
         }
         catch (Exception ex)
         {
