@@ -35,6 +35,21 @@ public class ExceptionMiddleware
             context.Response.StatusCode = StatusCodes.Status409Conflict;
             await context.Response.WriteAsJsonAsync(problemDetails);
         }
+        catch (UnauthorizedException ex)
+        {
+            _logger.LogWarning(ex, "Authorization error occurred.");
+
+            var problemDetails = new ProblemDetails
+            {
+                Title = "Authorization Error",
+                Status = StatusCodes.Status403Forbidden,
+                Detail = ex.Message,
+                Instance = context.Request.Path
+            };
+
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            await context.Response.WriteAsJsonAsync(problemDetails);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An unexpected error occurred.");
