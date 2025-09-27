@@ -16,11 +16,17 @@ public class AuthenticationController : ControllerBase
     {
         _authInterface = authInterface;
     }
-    
+
     [HttpPost("signup")]
     public async Task<ActionResult<ResponseModel>> SignUp(SignUpRequestDto dto)
     {
         var response = await _authInterface.SignUp(dto);
+        return Ok(response);
+    }
+    [HttpPost("signin")]
+    public async Task<ActionResult<ResponseModel>> SignIn(SignInRequestDto dto)
+    {
+        var response = await _authInterface.SignIn(dto);
         return Ok(response);
     }
 }

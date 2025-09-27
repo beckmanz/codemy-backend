@@ -7,4 +7,5 @@ namespace codemy_backend.Services.Auth;
 public interface IAuthInterface
 {
     Task<ResponseModel> SignUp(SignUpRequestDto signUpRequestDto);
+    Task<ResponseModel> SignIn(SignInRequestDto signInRequestDto);
 }
